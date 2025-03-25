@@ -36,6 +36,24 @@
   margin-right: 10px;
 }
 
+.logo-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.logo-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--dark-color);
+}
+
+.logo-tagline {
+  font-size: 0.7rem;
+  color: #666;
+  margin-top: -2px;
+}
+
 .nav-menu {
   display: flex;
   align-items: center;
@@ -99,6 +117,14 @@
 @media screen and (max-width: 960px) {
   .navbar {
     height: 60px;
+  }
+  
+  .logo-tagline {
+    display: none; /* Hide tagline on mobile */
+  }
+  
+  .logo-title {
+    font-size: 1.2rem; /* Smaller font size on mobile */
   }
 
   .nav-menu {
