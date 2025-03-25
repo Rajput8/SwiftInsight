@@ -1,0 +1,255 @@
+/* Contact Hero Section */
+.contact-hero {
+  background-color: var(--light-color);
+  padding: 6rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-hero:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(to bottom right, rgba(255, 87, 34, 0.05), rgba(12, 134, 230, 0.05));
+  z-index: 1;
+}
+
+.contact-hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.contact-hero h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.contact-hero p {
+  font-size: 1.2rem;
+  max-width: 700px;
+  margin: 0 auto;
+  color: var(--gray-color);
+}
+
+/* Contact Content Section */
+.contact-content {
+  padding: 5rem 0;
+  background-color: #fff;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+}
+
+.contact-info h2 {
+  margin-bottom: 1.5rem;
+}
+
+.contact-info p {
+  margin-bottom: 2rem;
+  color: var(--gray-color);
+}
+
+.contact-methods {
+  margin-bottom: 3rem;
+}
+
+.contact-method {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.contact-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 1rem;
+  background-color: rgba(255, 87, 34, 0.1);
+  color: var(--primary-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contact-detail h3 {
+  margin-bottom: 0.25rem;
+}
+
+.contact-detail p {
+  margin-bottom: 0;
+  font-size: 0.95rem;
+}
+
+.social-links h3 {
+  margin-bottom: 1rem;
+}
+
+.social-icons {
+  display: flex;
+}
+
+.social-icons a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  margin-right: 1rem;
+  background-color: var(--light-color);
+  border-radius: 50%;
+  color: var(--gray-color);
+  transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+/* Contact Form */
+.contact-form-container h2 {
+  margin-bottom: 1.5rem;
+}
+
+.contact-form {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.error {
+  border-color: var(--error-color);
+}
+
+.error-message {
+  color: var(--error-color);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.global-error {
+  background-color: rgba(244, 67, 54, 0.1);
+  border-left: 3px solid var(--error-color);
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 4px;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+}
+
+/* Form Success */
+.form-success {
+  text-align: center;
+  padding: 3rem 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.success-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  color: var(--success-color);
+}
+
+.form-success h3 {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+  color: var(--success-color);
+}
+
+.form-success p {
+  margin-bottom: 2rem;
+  color: var(--gray-color);
+}
+
+/* FAQ Teaser Section */
+.faq-teaser {
+  background-color: var(--light-color);
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.faq-teaser h2 {
+  margin-bottom: 1rem;
+}
+
+.faq-teaser p {
+  max-width: 700px;
+  margin: 0 auto 2rem;
+  color: var(--gray-color);
+}
+
+/* Responsive Styles */
+@media (max-width: 991.98px) {
+  .contact-hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .contact-hero p {
+    font-size: 1.1rem;
+  }
+  
+  .contact-grid {
+    gap: 3rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .contact-hero {
+    padding: 5rem 0;
+  }
+  
+  .contact-hero h1 {
+    font-size: 2rem;
+  }
+  
+  .contact-hero p {
+    font-size: 1rem;
+  }
+  
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .contact-form {
+    padding: 1.5rem;
+  }
+  
+  .form-success {
+    padding: 2rem 1.5rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .contact-hero {
+    padding: 4rem 0;
+  }
+  
+  .contact-hero h1 {
+    font-size: 1.75rem;
+  }
+  
+  .social-icons a {
+    width: 35px;
+    height: 35px;
+  }
+}
