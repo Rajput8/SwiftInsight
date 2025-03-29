@@ -4,7 +4,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import About from './pages/About';
-import Contact from './pages/Contact';
+import ContactForm from './pages/Contact';
 import QA from './pages/QA';
 import './styles/App.css';
 
@@ -16,7 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
+          <Route path="/contact" element={<ContactForm />} />
           <Route path="/qa" element={<QA />} />
         </Routes>
       </main>
