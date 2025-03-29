@@ -377,7 +377,175 @@ Task {
         url: "https://www.swift.org/blog/"
       }
     ]
-  }
+  },
+
+        {
+          "id": 11,
+          "question": "How does the Swift language reduce potential verbosity?",
+          "answer": "Swift reduces verbosity through features like type inference, closures with shorthand syntax, synthesized initializers, and memberwise initializers. It also minimizes boilerplate by eliminating the need for header files and reducing redundant syntax.",
+          "category": "Interview Insights",
+          "code": `// Type inference example
+      let message = "Hello, Swift!" // Swift infers the type as String
+
+      // Closure shorthand syntax
+      let numbers = [1, 2, 3, 4]
+      let squared = numbers.map { $0 * $0 } // No need for explicit parameter names`,
+          "resources": [
+            {
+              "title": "Swift.org - The Swift Programming Language",
+              "url": "https://swift.org/documentation/"
+            }
+          ]
+        },
+        {
+          "id": 12,
+          "question": "Which Swift feature helps in situations where the type might be cumbersome to write?",
+          "answer": "Type inference helps when dealing with complex types, reducing the need for explicit type annotations, especially with generics and closures.",
+          "category": "Interview Insights",
+          "code": `// Swift infers the type of the dictionary
+      let user: [String: Any] = ["name": "Alice", "age": 25]
+
+      // Inferring closure return type
+      let doubledNumbers = [1, 2, 3].map { $0 * 2 }`,
+          "resources": [
+            {
+              "title": "Apple Developer - Swift Type Inference",
+              "url": "https://developer.apple.com/documentation/swift/type_inference"
+            }
+          ]
+        },
+        {
+          "id": 13,
+          "question": "Which statement provides the early return pattern?",
+          "answer": "The `guard` statement allows early exit from a function if a condition isn't met, improving code readability and reducing nesting.",
+          "category": "Interview Insights",
+          "code": `func validate(age: Int) {
+          guard age >= 18 else {
+              print("Underage, access denied!")
+              return
+          }
+          print("Access granted!")
+      }`,
+          "resources": [
+            {
+              "title": "Apple Developer - Control Flow in Swift",
+              "url": "https://developer.apple.com/documentation/swift/control_flow"
+            }
+          ]
+        },
+        {
+          "id": 14,
+          "question": "What is a lightweight data structure that groups multiple values into a single compound value?",
+          "answer": "Tuples in Swift allow grouping multiple values without defining a separate type. They are useful for returning multiple values from a function.",
+          "category": "Interview Insights",
+          "code": `let person = (name: "Alice", age: 25)
+      print(person.name) // Output: Alice`,
+          "resources": [
+            {
+              "title": "Apple Developer - Tuples in Swift",
+              "url": "https://developer.apple.com/documentation/swift/tuples"
+            }
+          ]
+        },
+        {
+          "id": 15,
+          "question": "In what scenarios should we use Float and Double?",
+          "answer": "Use `Float` for lower precision (32-bit) and `Double` for higher precision (64-bit). `Double` is preferred for accuracy in most cases.",
+          "category": "Interview Insights",
+          "code": `let piFloat: Float = 3.1415927
+      let piDouble: Double = 3.141592653589793`,
+          "resources": [
+            {
+              "title": "Swift.org - Numeric Types",
+              "url": "https://swift.org/documentation/api-design-guidelines/"
+            }
+          ]
+        },
+        {
+          "id": 16,
+          "question": "Which operator is known as the 'identity' operator?",
+          "answer": "The `===` operator checks if two references point to the same object in memory.",
+          "category": "Interview Insights",
+          "code": `class Example {}
+      let obj1 = Example()
+      let obj2 = obj1
+      print(obj1 === obj2) // Output: true`,
+          "resources": [
+            {
+              "title": "Apple Developer - Swift Operators",
+              "url": "https://developer.apple.com/documentation/swift/swift_standard_library/operators"
+            }
+          ]
+        },
+        {
+          "id": 17,
+          "question": "Which collection types are ordered and unordered?",
+          "answer": "Arrays are ordered collections, while sets and dictionaries are unordered.",
+          "category": "Interview Insights",
+          "code": `let orderedArray = [1, 2, 3] // Maintains order
+      let unorderedSet: Set = [3, 1, 2] // Order not guaranteed`,
+          "resources": [
+            {
+              "title": "Apple Developer - Swift Collections",
+              "url": "https://developer.apple.com/documentation/swift/collection"
+            }
+          ]
+        },
+        {
+          "id": 18,
+          "question": "Which keyword allows the code flow to continue to the next case after the matching case?",
+          "answer": "The `fallthrough` keyword allows execution to continue to the next case in a switch statement.",
+          "category": "Interview Insights",
+          "code": `let number = 2
+      switch number {
+      case 1:
+          print("One")
+      case 2:
+          print("Two")
+          fallthrough
+      case 3:
+          print("Three")
+      default:
+          print("Other")
+      }`,
+          "resources": [
+            {
+              "title": "Apple Developer - Swift Switch Statements",
+              "url": "https://developer.apple.com/documentation/swift/control_flow"
+            }
+          ]
+        },
+        {
+          "id": 19,
+          "question": "Which transfer statements contribute to flexible loop control?",
+          "answer": "`break`, `continue`, and `return` control loop execution. `break` exits, `continue` skips an iteration, and `return` exits a function.",
+          "category": "Interview Insights",
+          "code": `for i in 1...5 {
+          if i == 3 { continue }
+          print(i)
+      } // Output: 1, 2, 4, 5`,
+          "resources": [
+            {
+              "title": "Apple Developer - Swift Control Flow",
+              "url": "https://developer.apple.com/documentation/swift/control_flow"
+            }
+          ]
+        },
+        {
+          "id": 20,
+          "question": "Which type of range should I use when including the first value but excluding the last value?",
+          "answer": "A half-open range (`..<`) includes the first value but excludes the last.",
+          "category": "Interview Insights",
+          "code": `for i in 1..<5 {
+          print(i)
+      } // Output: 1, 2, 3, 4`,
+          "resources": [
+            {
+              "title": "Apple Developer - Ranges in Swift",
+              "url": "https://developer.apple.com/documentation/swift/range"
+            }
+          ]
+        }
 ];
 
 export default qaData;
