@@ -59,7 +59,7 @@ const QA = () => {
               )}
             </div>
             
-            <div className="category-filters">
+            {/* <div className="category-filters">
               {categories.map(category => (
                 <button 
                   key={category}
@@ -69,7 +69,21 @@ const QA = () => {
                   {category.charAt(0).toUpperCase() + category.slice(1)}
                 </button>
               ))}
+            </div> */}
+
+            <div className="category-filters">
+              {categories.map(category => (
+                <button 
+                  key={category}
+                  className={`category-btn ${activeCategory === category ? 'active' : ''}`}
+                  onClick={() => setActiveCategory(category)}
+                >
+                  {category === "interview" ? "Interview Insights" : category.charAt(0).toUpperCase() + category.slice(1)}
+                </button>
+              ))}
             </div>
+
+            
           </div>
 
           <div className="qa-list">
