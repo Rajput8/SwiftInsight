@@ -7,7 +7,7 @@ const About = () => {
     <div className="about-page">
       <section className="about-hero">
         <div className="about-hero-content">
-          <h1>About SwiftInsight</h1>
+          <h1>About Swift Insight</h1>
           <p className="subtitle">Dedicated to the Swift programming community</p>
         </div>
       </section>
@@ -16,7 +16,7 @@ const About = () => {
         <div className="container">
           <h2 className="section-title">Our Mission</h2>
           <p>
-            At SwiftInsight, our mission is to make learning Swift programming language accessible, 
+            At Swift Insight, our mission is to make learning Swift programming language accessible, 
             enjoyable, and effective for everyone. We provide comprehensive resources, insights, 
             and support for beginners and experienced developers alike.
           </p>
@@ -57,7 +57,7 @@ const About = () => {
               <div className="timeline-marker">Today</div>
               <div className="timeline-content">
                 <h3>Growing Community</h3>
-                <p>SwiftInsight continues to grow, providing valuable resources to Swift developers worldwide and fostering a community of innovation and learning.</p>
+                <p>Swift Insight continues to grow, providing valuable resources to Swift developers worldwide and fostering a community of innovation and learning.</p>
               </div>
             </div>
           </div>
@@ -66,21 +66,52 @@ const About = () => {
 
       <section className="about-team">
         <div className="container">
-          <h2 className="section-title">Our Team</h2>
+          <h2 className="section-title">Behind Swift Insight</h2>
           <div className="team-grid">
             <div className="team-member">
-              <div className="team-member-avatar">
-                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+              {/* <div className="team-member-avatar"> */}
+
+                <div className="team-member-avatar" style={{
+                  width: "80px",
+                  height: "80px",
+                  borderRadius: "50%",
+                  overflow: "hidden",
+       border: "1px solid #ff4500" // Border width & color
+                }}>
+                
+                {/* <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                   <circle cx="12" cy="7" r="4"></circle>
-                </svg>
+                </svg> */}
+
+          
+              
+
+               
+
+                <img 
+                  src="https://i.imgur.com/oHNxHXe.jpeg" 
+                  alt="Shiv Kumar" 
+                  width="80" 
+                  height="80" 
+                  style={{
+                    objectFit: "cover",
+                    width: "100%",
+                    height: "100%"
+                  }} 
+                />
+           
+            
+                
               </div>
-              <h3>Alex Johnson</h3>
-              <p className="team-role">Founder & Lead Developer</p>
-              <p>Swift enthusiast since its inception, with over 10 years of iOS development experience.</p>
+              <h3>Shiv Kumar</h3>
+              <p className="team-role">Founder & iOS Developer</p>
+              <p>Swift enthusiast since its inception. <br/>
+                Full-stack developer specializing in Swift and server-side Swift implementations.
+              </p>
             </div>
             
-            <div className="team-member">
+            {/* <div className="team-member">
               <div className="team-member-avatar">
                 <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -102,7 +133,8 @@ const About = () => {
               <h3>Michael Rodriguez</h3>
               <p className="team-role">Senior Developer & Educator</p>
               <p>Full-stack developer specializing in Swift and server-side Swift implementations.</p>
-            </div>
+            </div> */}
+            
           </div>
         </div>
       </section>
@@ -163,7 +195,7 @@ const About = () => {
 
       <section className="about-cta">
         <div className="container">
-          <h2>Join Our Swift Community</h2>
+          <h2>Join Our Swift Insight Community</h2>
           <p>Have questions about Swift or want to connect with fellow developers?</p>
           <div className="cta-buttons">
             <Link to="/contact" className="btn primary-btn">Contact Us</Link>

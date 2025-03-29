@@ -9,8 +9,8 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer-container">
         <div className="footer-section">
-          <h3 className="footer-heading">SwiftInsight</h3>
-          <p>Insights into the world of Swift programming language.</p>
+          <h3 className="footer-heading">Swift Insight</h3>
+          <p>Insights into the world of Swift.</p>
         </div>
         
         <div className="footer-section">
@@ -34,7 +34,7 @@ const Footer = () => {
       </div>
       
       <div className="footer-bottom">
-        <p>&copy; {currentYear} SwiftInsight. All rights reserved.</p>
+        <p>&copy; {currentYear} Swift Insight. All rights reserved.</p>
       </div>
     </footer>
   );

@@ -10,8 +10,8 @@ const Home = () => {
           <h1>Welcome to Swift Insight</h1>
           <p className="tagline">Insights into the world of Swift</p>
           <p className="hero-description">
-            A comprehensive resource for learning and mastering Swift, Apple's
-            powerful and intuitive programming language.
+            A comprehensive resource for learning and mastering Swift,<br />
+            Apple's powerful and intuitive programming language.
           </p>
           <div className="hero-buttons">
             <Link to="/qa" className="btn primary-btn">
