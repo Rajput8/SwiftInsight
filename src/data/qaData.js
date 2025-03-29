@@ -3,7 +3,7 @@ const qaData = [
     id: 1,
     question: "What is Swift and why was it created?",
     answer: "Swift is a powerful and intuitive programming language developed by Apple for iOS, macOS, watchOS, and tvOS app development. It was introduced in 2014 as a modern replacement for Objective-C, offering improved safety, performance, and expressiveness. Swift was designed to be easier to learn while maintaining the power needed for complex app development.",
-    category: "Interview Insights",
+    category: "basics",
     resources: [
   {
     title: "Swift.org - About Swift",
@@ -19,7 +19,7 @@ const qaData = [
     id: 2,
     question: "What are the key features of Swift?",
     answer: "Swift offers many modern features that make it powerful yet easy to use. Key features include: type safety, optionals for handling nil values, automatic memory management with ARC, powerful generics, pattern matching, first-class functions, and protocol-oriented programming. Swift also emphasizes performance, safety, and modern syntax.",
-    category: "Interview Insights",
+    category: "basics",
     resources: [
   {
     title: "Swift Features - Apple Developer",
@@ -31,7 +31,7 @@ const qaData = [
     id: 3,
     question: "What are Optionals in Swift?",
     answer: "Optionals are a powerful feature in Swift that handle the absence of a value. An optional represents two possibilities: either there is a value of a specified type, or there is no value at all (nil). Optionals are written by appending a question mark (?) to the type declaration. This helps prevent null pointer exceptions that are common in other languages.",
-    category: "Interview Insights",
+    category: "basics",
     code: `// Declaring an optional String
 let possibleName: String? = "John"
 
@@ -58,7 +58,7 @@ let defaultName = possibleName ?? "Anonymous"`,
     id: 4,
     question: "What is the difference between structs and classes in Swift?",
     answer: "Both structs and classes are building blocks for organizing code in Swift, but they have key differences. Structs are value types (copied when passed), while classes are reference types (passed by reference). Structs don't support inheritance, while classes do. Structs have automatic memberwise initializers, while classes require explicit initializers. Memory management is simpler with structs as they don't participate in ARC.",
-    category: "Interview Insights",
+    category: "advanced",
     code: `// Struct example
 struct Point {
     var x: Double
@@ -100,7 +100,7 @@ print(person2.age) // 31`,
     id: 5,
     question: "What is Swift's closure syntax?",
     answer: "Closures in Swift are self-contained blocks of functionality that can be passed around and used in your code. They are similar to blocks in Objective-C and lambdas in other languages. Swift's closure syntax is highly optimized with features like inferring parameter and return types, implicit returns for single-expression closures, shorthand argument names, and trailing closure syntax.",
-    category: "Interview Insights",
+    category: "advanced",
     code: `// Full closure syntax
 let fullClosure = { (numbers: [Int]) -> Int in
     var sum = 0
@@ -138,7 +138,7 @@ let sortedNumbers = numbers.sorted { $0 > $1 }`,
     id: 6,
     question: "How does memory management work in Swift?",
     answer: "Swift uses Automatic Reference Counting (ARC) to manage memory for class instances. ARC automatically tracks and manages your app's memory usage by freeing up memory used by class instances when they are no longer needed. This happens without requiring manual memory management, but developers still need to understand and prevent reference cycles by using weak or unowned references when appropriate.",
-    category: "Interview Insights",
+    category: "advanced",
     code: `class Person {
     let name: String
     var apartment: Apartment?
@@ -186,7 +186,7 @@ apt101 = nil // Both will be deinitialized`,
     id: 7,
     question: "What is SwiftUI and how does it compare to UIKit?",
     answer: "SwiftUI is Apple's modern UI framework introduced in 2019 for building user interfaces across all Apple platforms. It uses a declarative syntax, allowing developers to state what the UI should do rather than how to do it. SwiftUI offers automatic support for Dark Mode, Dynamic Type, and localization. While UIKit is imperative and uses a delegate pattern with more manual layout, SwiftUI is more concise, reactive, and handles state management more elegantly. SwiftUI works alongside UIKit, allowing gradual adoption.",
-    category: "Interview Insights",
+    category: "frameworks",
     code: `// Basic SwiftUI view
 import SwiftUI
 
@@ -235,7 +235,7 @@ struct ContentView: View {
     id: 8,
     question: "What is Swift Package Manager?",
     answer: "Swift Package Manager (SPM) is a tool for managing the distribution of Swift code. It's integrated with the Swift build system to automate the process of downloading, compiling, and linking dependencies. Similar to other dependency managers like CocoaPods or Carthage, SPM allows you to specify external libraries your project depends on and ensures they're downloaded and built when needed.",
-    category: "Interview Insights",
+    category: "tools",
     code: `// Package.swift example
 // swift-tools-version:5.3
 import PackageDescription
@@ -274,7 +274,7 @@ let package = Package(
     id: 9,
     question: "What are Swift Protocols and Protocol-Oriented Programming?",
     answer: "Protocols in Swift define a blueprint of methods, properties, and other requirements that a type can adopt. Protocol-Oriented Programming (POP) is a programming paradigm that focuses on designing code around protocols and protocol extensions rather than inheritance from base classes. This approach offers more flexibility and composition compared to traditional object-oriented programming. With protocol extensions, you can provide default implementations for protocol requirements.",
-    category: "Interview Insights",
+    category: "advanced",
     code: `// Protocol definition
 protocol Vehicle {
     var numberOfWheels: Int { get }
@@ -325,7 +325,7 @@ describeVehicle(bike)`,
     id: 10,
     question: "What's new in the latest version of Swift?",
     answer: "Swift continues to evolve with regular updates. Recent Swift versions have introduced features like async/await for better concurrency, actors for safe shared mutable state, result builders for declarative syntax (used by SwiftUI), improved string handling, better debugging and error handling, and enhanced performance. The language is becoming more stable while still adding powerful features to improve developer productivity.",
-    category: "Interview Insights",
+    category: "updates",
     code: `// Async/await example (Swift 5.5+)
 func fetchUserData() async throws -> User {
     let (data, response) = try await URLSession.shared.data(from: userURL)
@@ -383,7 +383,7 @@ Task {
     id: 11,
     question: "How does the Swift language reduce potential verbosity?",
     answer: "Swift reduces verbosity through features like type inference, closures with shorthand syntax, synthesized initializers, and memberwise initializers. It also minimizes boilerplate by eliminating the need for header files and reducing redundant syntax.",
-    category: "Interview Insights",
+    category: "interview",
     code: `// Type inference example
 let message = "Hello, Swift!" // Swift infers the type as String
 
@@ -395,7 +395,7 @@ let squared = numbers.map { $0 * $0 } // No need for explicit parameter names`
     id: 12,
     question: "Which Swift feature helps in situations where the type might be cumbersome to write?",
     answer: "Type inference helps when dealing with complex types, reducing the need for explicit type annotations, especially with generics and closures.",
-    category: "Interview Insights",
+    category: "interview",
     code: `// Swift infers the type of the dictionary
 let user: [String: Any] = ["name": "Alice", "age": 25]
 
