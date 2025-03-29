@@ -383,7 +383,7 @@ Task {
     id: 11,
     question: "How does the Swift language reduce potential verbosity?",
     answer: "Swift reduces verbosity through features like type inference, closures with shorthand syntax, synthesized initializers, and memberwise initializers. It also minimizes boilerplate by eliminating the need for header files and reducing redundant syntax.",
-    category: "interview",
+    category: "Interview Insights",
     code: `// Type inference example
 let message = "Hello, Swift!" // Swift infers the type as String
 
@@ -395,7 +395,7 @@ let squared = numbers.map { $0 * $0 } // No need for explicit parameter names`
     id: 12,
     question: "Which Swift feature helps in situations where the type might be cumbersome to write?",
     answer: "Type inference helps when dealing with complex types, reducing the need for explicit type annotations, especially with generics and closures.",
-    category: "interview",
+    category: "Interview Insights",
     code: `// Swift infers the type of the dictionary
 let user: [String: Any] = ["name": "Alice", "age": 25]
 
