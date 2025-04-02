@@ -3,7 +3,7 @@ const qaData = [
     id: 1,
     question: "What is Swift and why was it created?",
     answer: "Swift is a powerful and intuitive programming language developed by Apple for iOS, macOS, watchOS, and tvOS app development. It was introduced in 2014 as a modern replacement for Objective-C, offering improved safety, performance, and expressiveness. Swift was designed to be easier to learn while maintaining the power needed for complex app development.",
-    category: "basics",
+    category: "foundation",
     resources: [
   {
     title: "Swift.org - About Swift",
@@ -19,7 +19,7 @@ const qaData = [
     id: 2,
     question: "What are the key features of Swift?",
     answer: "Swift offers many modern features that make it powerful yet easy to use. Key features include: type safety, optionals for handling nil values, automatic memory management with ARC, powerful generics, pattern matching, first-class functions, and protocol-oriented programming. Swift also emphasizes performance, safety, and modern syntax.",
-    category: "basics",
+    category: "foundation",
     resources: [
   {
     title: "Swift Features - Apple Developer",
@@ -31,7 +31,7 @@ const qaData = [
     id: 3,
     question: "What are Optionals in Swift?",
     answer: "Optionals are a powerful feature in Swift that handle the absence of a value. An optional represents two possibilities: either there is a value of a specified type, or there is no value at all (nil). Optionals are written by appending a question mark (?) to the type declaration. This helps prevent null pointer exceptions that are common in other languages.",
-    category: "basics",
+    category: "foundation",
     code: `// Declaring an optional String
 let possibleName: String? = "John"
 
@@ -58,7 +58,7 @@ let defaultName = possibleName ?? "Anonymous"`,
     id: 4,
     question: "What is the difference between structs and classes in Swift?",
     answer: "Both structs and classes are building blocks for organizing code in Swift, but they have key differences. Structs are value types (copied when passed), while classes are reference types (passed by reference). Structs don't support inheritance, while classes do. Structs have automatic memberwise initializers, while classes require explicit initializers. Memory management is simpler with structs as they don't participate in ARC.",
-    category: "advanced",
+    category: "foundation",
     code: `// Struct example
 struct Point {
     var x: Double
@@ -100,7 +100,7 @@ print(person2.age) // 31`,
     id: 5,
     question: "What is Swift's closure syntax?",
     answer: "Closures in Swift are self-contained blocks of functionality that can be passed around and used in your code. They are similar to blocks in Objective-C and lambdas in other languages. Swift's closure syntax is highly optimized with features like inferring parameter and return types, implicit returns for single-expression closures, shorthand argument names, and trailing closure syntax.",
-    category: "advanced",
+    category: "foundation",
     code: `// Full closure syntax
 let fullClosure = { (numbers: [Int]) -> Int in
     var sum = 0
@@ -138,7 +138,7 @@ let sortedNumbers = numbers.sorted { $0 > $1 }`,
     id: 6,
     question: "How does memory management work in Swift?",
     answer: "Swift uses Automatic Reference Counting (ARC) to manage memory for class instances. ARC automatically tracks and manages your app's memory usage by freeing up memory used by class instances when they are no longer needed. This happens without requiring manual memory management, but developers still need to understand and prevent reference cycles by using weak or unowned references when appropriate.",
-    category: "advanced",
+    category: "foundation",
     code: `class Person {
     let name: String
     var apartment: Apartment?
@@ -186,7 +186,7 @@ apt101 = nil // Both will be deinitialized`,
     id: 7,
     question: "What is SwiftUI and how does it compare to UIKit?",
     answer: "SwiftUI is Apple's modern UI framework introduced in 2019 for building user interfaces across all Apple platforms. It uses a declarative syntax, allowing developers to state what the UI should do rather than how to do it. SwiftUI offers automatic support for Dark Mode, Dynamic Type, and localization. While UIKit is imperative and uses a delegate pattern with more manual layout, SwiftUI is more concise, reactive, and handles state management more elegantly. SwiftUI works alongside UIKit, allowing gradual adoption.",
-    category: "frameworks",
+    category: "foundation",
     code: `// Basic SwiftUI view
 import SwiftUI
 
@@ -235,7 +235,7 @@ struct ContentView: View {
     id: 8,
     question: "What is Swift Package Manager?",
     answer: "Swift Package Manager (SPM) is a tool for managing the distribution of Swift code. It's integrated with the Swift build system to automate the process of downloading, compiling, and linking dependencies. Similar to other dependency managers like CocoaPods or Carthage, SPM allows you to specify external libraries your project depends on and ensures they're downloaded and built when needed.",
-    category: "tools",
+    category: "foundation",
     code: `// Package.swift example
 // swift-tools-version:5.3
 import PackageDescription
@@ -274,7 +274,7 @@ let package = Package(
     id: 9,
     question: "What are Swift Protocols and Protocol-Oriented Programming?",
     answer: "Protocols in Swift define a blueprint of methods, properties, and other requirements that a type can adopt. Protocol-Oriented Programming (POP) is a programming paradigm that focuses on designing code around protocols and protocol extensions rather than inheritance from base classes. This approach offers more flexibility and composition compared to traditional object-oriented programming. With protocol extensions, you can provide default implementations for protocol requirements.",
-    category: "advanced",
+    category: "weekly",
     code: `// Protocol definition
 protocol Vehicle {
     var numberOfWheels: Int { get }
@@ -324,53 +324,29 @@ describeVehicle(bike)`,
   {
     id: 10,
     question: "What's new in the latest version of Swift?",
-    answer: "Swift continues to evolve with regular updates. Recent Swift versions have introduced features like async/await for better concurrency, actors for safe shared mutable state, result builders for declarative syntax (used by SwiftUI), improved string handling, better debugging and error handling, and enhanced performance. The language is becoming more stable while still adding powerful features to improve developer productivity.",
+    answer: "Swift’s concurrency model allows writing nonisolated on properties and functions to indicate that an API is safe to call from any concurrent context. Swift 6.1 extends nonisolated to types and extensions. This allows you to write nonisolated to prevent @MainActor inference on a type, or to apply nonisolated to all methods in an extension without having to annotate every method.",
     category: "updates",
-    code: `// Async/await example (Swift 5.5+)
-func fetchUserData() async throws -> User {
-    let (data, response) = try await URLSession.shared.data(from: userURL)
-    guard let httpResponse = response as? HTTPURLResponse,
-  httpResponse.statusCode == 200 else {
-    throw FetchError.badResponse
-    }
-    return try JSONDecoder().decode(User.self, from: data)
+    code: `@MainActor
+struct S {
+  let id: Int
+  let name: String
+
+  // mutable state and MainActor methods
 }
 
-// Usage
-Task {
-    do {
-    let user = try await fetchUserData()
-    updateUI(with: user)
-    } catch {
-    handleError(error)
-    }
-}
+nonisolated extension S: CustomStringConvertible, Equatable {
+  var description: String {
+    "id: \(id), name: \(name)"
+  }
 
-// Actor example (Swift 5.5+)
-actor UserManager {
-    private var users: [String: User] = [:]
-    
-    func user(id: String) -> User? {
-    return users[id]
-    }
-    
-    func addUser(_ user: User, id: String) {
-    users[id] = user
-    }
-}
-
-// Using the actor
-let manager = UserManager()
-Task {
-    await manager.addUser(newUser, id: "123")
-    if let user = await manager.user(id: "123") {
-    print("Found user: \\(user.name)")
-    }
+  static func ==(lhs: S, rhs: S) -> Bool {
+    lhs.id == rhs.id
+  }
 }`,
     resources: [
   {
-    title: "Swift.org - Swift 5.5 Released",
-    url: "https://swift.org/blog/swift-5-5-released/"
+    title: "Swift.org - Swift 6.1 Released",
+    url: "https://www.swift.org/blog/swift-6.1-released/"
   },
   {
     title: "What's new in Swift",
@@ -1252,11 +1228,443 @@ let doubledNumbers = [1, 2, 3].map { $0 * 2 }`
       "code": `DispatchQueue.global().async {
           print("Executing task in background")
       }`
-    }
+    },
+
+  // Next week updates: 07.04.2025
+
+    {
+      "id": 84,
+      "question": "Which SOLID principle advises splitting large interfaces into smaller, more focused ones to prevent forcing clients to implement unnecessary methods?",
+      "answer": "Interface Segregation Principle (ISP)",
+      "category": "weekly",
+      "code": `protocol Printer {
+          func printDocument()
+      }
+
+      protocol Scanner {
+          func scanDocument()
+      }`
+    },
+    {
+      "id": 85,
+      "question": "Which SOLID principle encourages extending functionality without modifying existing code?",
+      "answer": "Open/Closed Principle (OCP)",
+      "category": "weekly",
+      "code": `protocol Shape {
+          func area() -> Double
+      }
+
+      class Circle: Shape {
+          let radius: Double
+          init(radius: Double) { self.radius = radius }
+          func area() -> Double { return Double.pi * radius * radius }
+      }`
+    },
+    {
+      "id": 86,
+      "question": "Which SOLID principle emphasizes that a class should have only one reason to change?",
+      "answer": "Single Responsibility Principle (SRP)",
+      "category": "weekly",
+      "code": `class ReportGenerator {
+          func generateReport() { print("Generating report") }
+      }
+
+      class ReportSaver {
+          func saveReport() { print("Saving report") }
+      }`
+    },
+    {
+      "id": 87,
+      "question": "Which SOLID principle encourages high-level modules to depend on abstractions rather than concrete implementations?",
+      "answer": "Dependency Inversion Principle (DIP)",
+      "category": "weekly",
+      "code": `protocol DataSource {
+          func fetchData() -> String
+      }
+
+      class APIService: DataSource {
+          func fetchData() -> String { return "Data from API" }
+      }
+
+      class DataManager {
+          let dataSource: DataSource
+          init(dataSource: DataSource) { self.dataSource = dataSource }
+      }`
+    },
+    {
+      "id": 88,
+      "question": "In the context of SOLID, which principle ensures that derived classes should be substitutable for their base classes without breaking functionality?",
+      "answer": "Liskov Substitution Principle (LSP)",
+      "category": "weekly",
+      "code": `class Bird {
+          func fly() { print("Flying") }
+      }
+
+      class Sparrow: Bird {} // Can still fly`
+    },
+    {
+      "id": 89,
+      "question": "Which GCD method is used to execute a task asynchronously on a background thread?",
+      "answer": "DispatchQueue.global().async",
+      "category": "weekly",
+      "code": `DispatchQueue.global().async {
+          print("Running in background")
+      }`
+    },
+    {
+      "id": 90,
+      "question": "What is the primary purpose of DispatchQueue.main.async in Swift?",
+      "answer": "To execute UI updates on the main thread.",
+      "category": "weekly",
+      "code": `DispatchQueue.main.async {
+          print("Updating UI on main thread")
+      }`
+    },
+    {
+      "id": 91,
+      "question": "Which GCD function is ideal for delaying task execution by a specified time interval?",
+      "answer": "asyncAfter",
+      "category": "weekly",
+      "code": `DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+          print("Executed after delay")
+      }`
+    },
+    {
+      "id": 92,
+      "question": "What is the difference between .async and .sync in GCD?",
+      "answer": ".async (non-blocking) vs .sync (blocking) for better performance.",
+      "category": "weekly",
+      "code": `DispatchQueue.global().async {
+          print("Runs in background (non-blocking)")
+      }
+
+      DispatchQueue.global().sync {
+          print("Runs in background (blocking)")
+      }`
+    },
+    {
+      "id": 93,
+      "question": "Which GCD construct is used to manage concurrent execution of multiple tasks efficiently?",
+      "answer": "DispatchGroup",
+      "category": "weekly",
+      "code": `let group = DispatchGroup()
+
+      DispatchQueue.global().async(group: group) {
+          print("Task 1")
+      }
+
+      DispatchQueue.global().async(group: group) {
+          print("Task 2")
+      }
+
+      group.notify(queue: DispatchQueue.main) {
+          print("All tasks completed")
+      }`
+    },
   
+    {
+      "id": 94,
+      "question": "How does DispatchSemaphore help in synchronizing concurrent tasks?",
+      "answer": "DispatchSemaphore is useful for locking and controlling access to tasks in a concurrent environment. It ensures that only a limited number of threads can execute a critical section at the same time, preventing race conditions and resource conflicts.",
+      "category": "weekly",
+      "code": `let semaphore = DispatchSemaphore(value: 1)
 
+      DispatchQueue.global().async {
+          semaphore.wait()
+          print("Executing task safely")
+          semaphore.signal()
+      }`
+    },
+    {
+      "id": 95,
+      "question": "What is the purpose of DispatchWorkItem in GCD? Can it be cancelled?",
+      "answer": "A DispatchWorkItem is a block of code that can be executed asynchronously or synchronously on a GCD queue. You can cancel a DispatchWorkItem, but cancellation doesn’t stop execution if it has already started. Instead, you need to check workItem.isCancelled inside the task.",
+      "category": "weekly",
+      "code": `let workItem = DispatchWorkItem {
+          if !workItem.isCancelled {
+              print("Executing work item")
+          }
+      }
 
+      DispatchQueue.global().async(execute: workItem)
+      workItem.cancel()`
+    },
+    {
+      "id": 96,
+      "question": "Explain the difference between .concurrent and .serial queues in GCD.",
+      "answer": "Serial Queue: Tasks execute one after another in order. Concurrent Queue: Tasks start simultaneously but finish independently.",
+      "category": "weekly",
+      "code": `let serialQueue = DispatchQueue(label: "com.example.serial")
+      let concurrentQueue = DispatchQueue(label: "com.example.concurrent", attributes: .concurrent)
 
+      serialQueue.async {
+          print("Task 1 in serial queue")
+      }
+
+      concurrentQueue.async {
+          print("Task 1 in concurrent queue")
+      }`
+    },
+    {
+      "id": 97,
+      "question": "How can you prevent race conditions using GCD in Swift?",
+      "answer": "By: Serial Queue, DispatchBarrier for thread-safe writes, DispatchSemaphore to control access",
+      "category": "weekly",
+      "code": `let queue = DispatchQueue(label: "com.example.serialQueue")
+
+      queue.sync {
+          print("Executing safely")
+      }`
+    },
+    {
+      "id": 98,
+      "question": "How does OperationQueue differ from GCD queues?",
+      "answer": "Use GCD for lightweight, performance-oriented tasks. Use OperationQueue when you need task dependencies, cancellation, and priority handling.",
+      "category": "weekly",
+      "code": `let operationQueue = OperationQueue()
+      operationQueue.maxConcurrentOperationCount = 2
+
+      let operation1 = BlockOperation {
+          print("Task 1")
+      }
+
+      operationQueue.addOperation(operation1)`
+    },
+    {
+      "id": 99,
+      "question": "What is the purpose of the maxConcurrentOperationCount property in OperationQueue?",
+      "answer": "maxConcurrentOperationCount controls the number of operations that can execute at the same time in an OperationQueue.",
+      "category": "weekly",
+      "code": `let queue = OperationQueue()
+      queue.maxConcurrentOperationCount = 2`
+    },
+    {
+      "id": 100,
+      "question": "Explain how dependencies work in Operation objects.",
+      "answer": "Dependencies in Operation ensure that one operation waits for another before executing.",
+      "category": "weekly",
+      "code": `let operation1 = BlockOperation { print("Task 1") }
+      let operation2 = BlockOperation { print("Task 2 after Task 1") }
+
+      operation2.addDependency(operation1)
+
+      let queue = OperationQueue()
+      queue.addOperations([operation1, operation2], waitUntilFinished: false)`
+    },
+    {
+      "id": 101,
+      "question": "How can you cancel an operation in OperationQueue?",
+      "answer": "You can cancel an operation using the cancel() method, but you must check isCancelled inside the operation to stop execution early.",
+      "category": "weekly",
+      "code": `let operation = BlockOperation {
+          if !operation.isCancelled {
+              print("Executing operation")
+          }
+      }
+
+      operation.cancel()`
+    },
+    {
+      "id": 102,
+      "question": "What is the advantage of using OperationQueue over GCD for complex task management?",
+      "answer": `Advantages of OperationQueue Over GCD for Complex Task Management: 
+      1️⃣ Task Dependencies 
+      2️⃣ Task Cancellation 
+      3️⃣ Task Priorities 
+      4️⃣ Observability 
+      5️⃣ Reusability & Reconfiguration`,
+      "category": "weekly",
+      "code": `let queue = OperationQueue()
+      queue.maxConcurrentOperationCount = 3`
+    },
+    {
+      "id": 103,
+      "question": "What is BlockOperation in Swift, and how is it used?",
+      "answer": "BlockOperation allows adding multiple execution blocks, and they run concurrently if system resources allow.",
+      "category": "weekly",
+      "code": `let operation = BlockOperation {
+          print("Executing block operation")
+      }
+
+      let queue = OperationQueue()
+      queue.addOperation(operation)`
+    },
+
+    {
+      "id": 104,
+      "question": "How can you add multiple execution blocks in a BlockOperation?",
+      "answer": "Via the addExecutionBlock method. This allows executing multiple blocks concurrently within the same operation.",
+      "category": "weekly",
+      "code": `let blockOperation = BlockOperation()
+
+      blockOperation.addExecutionBlock { 
+          print("Task 1") 
+      }
+
+      blockOperation.addExecutionBlock { 
+          print("Task 2") 
+      }
+
+      blockOperation.start()`
+    },
+    {
+      "id": 105,
+      "question": "What happens if a BlockOperation is cancelled before all blocks finish execution?",
+      "answer": "If a BlockOperation is cancelled, any remaining execution blocks do not start. However, blocks that are already executing will continue unless explicitly checking for isCancelled.",
+      "category": "weekly",
+      "code": `let blockOperation = BlockOperation()
+
+      blockOperation.addExecutionBlock {
+          if !blockOperation.isCancelled {
+              print("Executing Task")
+          }
+      }
+
+      blockOperation.cancel()`
+    },
+    {
+      "id": 106,
+      "question": "How does BlockOperation handle concurrency?",
+      "answer": "BlockOperation executes its blocks concurrently on different threads, improving performance when multiple execution blocks are added.",
+      "category": "weekly",
+      "code": `let blockOperation = BlockOperation()
+
+      blockOperation.addExecutionBlock { print("Task 1") }
+      blockOperation.addExecutionBlock { print("Task 2") }
+      blockOperation.addExecutionBlock { print("Task 3") }
+
+      let operationQueue = OperationQueue()
+      operationQueue.addOperation(blockOperation)`
+    },
+    {
+      "id": 107,
+      "question": "How can you observe the completion state of a BlockOperation?",
+      "answer": "Via completionBlock property of BlockOperation to execute a task after all blocks have finished executing.",
+      "category": "weekly",
+      "code": `let blockOperation = BlockOperation()
+
+      blockOperation.addExecutionBlock { print("Task 1") }
+      blockOperation.addExecutionBlock { print("Task 2") }
+
+      blockOperation.completionBlock = {
+          print("All tasks completed")
+      }
+
+      let operationQueue = OperationQueue()
+      operationQueue.addOperation(blockOperation)`
+    },
+    {
+      "id": 108,
+      "question": "What is the purpose of the NSObject class in Swift?",
+      "answer": "NSObject is the root class of most Objective-C classes. It provides basic functionalities such as KVO (Key-Value Observing), NSCoding for encoding/decoding objects, and selector-based messaging.",
+      "category": "weekly",
+      "code": `class MyClass: NSObject {
+          @objc dynamic var name: String = "Default"
+      }
+
+      let myObject = MyClass()
+      myObject.name = "Updated Name"`
+    },
+
+    {
+      "id": 109,
+      "question": "How is NSObject different from Swift’s native classes?",
+      "answer": "NSObject is the base class for most Objective-C classes, providing runtime features like KVO, NSCoding, and selector-based messaging. Swift’s native classes don’t inherit from NSObject but can use modern Swift features like structs, enums, and protocols.",
+      "category": "weekly",
+      "code": `class MyNSObjectClass: NSObject {
+          @objc dynamic var value: String = "Hello"
+      }
+
+      class MySwiftClass {
+          var value: String = "Hello"
+      }
+
+      let obj1 = MyNSObjectClass()
+      let obj2 = MySwiftClass()`
+    },
+    {
+      "id": 110,
+      "question": "What is isEqual(_:) in NSObject, and when should it be overridden?",
+      "answer": "isEqual(_:) is used to compare two instances of an NSObject subclass. It should be overridden to define custom equality logic for your objects.",
+      "category": "weekly",
+      "code": `class MyClass: NSObject {
+          var id: Int
+
+          init(id: Int) {
+              self.id = id
+          }
+
+          override func isEqual(_ object: Any?) -> Bool {
+              guard let other = object as? MyClass else { return false }
+              return self.id == other.id
+          }
+      }
+
+      let obj1 = MyClass(id: 1)
+      let obj2 = MyClass(id: 1)
+
+      print(obj1.isEqual(obj2)) // true`
+    },
+    {
+      "id": 111,
+      "question": "How can you use KVO (Key-Value Observing) with NSObject in Swift?",
+      "answer": "KVO (Key-Value Observing) allows observing property changes. The class must inherit from NSObject and use @objc dynamic for properties.",
+      "category": "weekly",
+      "code": `class MyObservableClass: NSObject {
+          @objc dynamic var count: Int = 0
+      }
+
+      let myObject = MyObservableClass()
+      let observer = myObject.observe(\\MyObservableClass.count, options: [.new]) { object, change in
+          print("New value: \(change.newValue ?? 0)")
+      }
+
+      myObject.count = 5 // New value: 5`
+    },
+    {
+      "id": 112,
+      "question": "What is the role of NSCoding in data persistence, and how is it implemented in Swift?",
+      "answer": "NSCoding is a protocol for encoding and decoding objects for persistence. It is typically used with NSKeyedArchiver and NSKeyedUnarchiver.",
+      "category": "weekly",
+      "code": `class User: NSObject, NSCoding {
+          var name: String
+
+          init(name: String) {
+              self.name = name
+          }
+
+          func encode(with coder: NSCoder) {
+              coder.encode(name, forKey: "name")
+          }
+
+          required init?(coder: NSCoder) {
+              self.name = coder.decodeObject(forKey: "name") as? String ?? ""
+          }
+      }
+
+      let user = User(name: "Alice")
+      let data = try? NSKeyedArchiver.archivedData(withRootObject: user, requiringSecureCoding: false)
+
+      if let data = data,
+         let decodedUser = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? User {
+          print(decodedUser.name) // Alice
+      }`
+    },
+    {
+      "id": 113,
+      "question": "How does NSObject help in conforming to Objective-C protocols in Swift?",
+      "answer": "NSObject enables Swift classes to conform to Objective-C protocols (e.g., UITableViewDelegate) by inheriting Objective-C runtime features.",
+      "category": "weekly",
+      "code": `class MyTableViewDelegate: NSObject, UITableViewDelegate {
+          func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+              print("Row \(indexPath.row) selected")
+          }
+      }
+
+      let delegate = MyTableViewDelegate()
+      let tableView = UITableView()
+      tableView.delegate = delegate`
+    }
 ];
 
 export default qaData;
