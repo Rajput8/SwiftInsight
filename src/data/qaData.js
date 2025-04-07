@@ -1664,7 +1664,280 @@ let doubledNumbers = [1, 2, 3].map { $0 * 2 }`
       let delegate = MyTableViewDelegate()
       let tableView = UITableView()
       tableView.delegate = delegate`
+    },
+
+  
+    {
+      "id": 114,
+      "question": "How does DispatchBarrier improve thread safety in concurrent queues?",
+      "answer": "A Dispatch Barrier ensures that read tasks run concurrently, but write tasks execute exclusively, preventing race conditions in concurrent queues.",
+      "category": "concurrency",
+      "code": `let concurrentQueue = DispatchQueue(label: "com.example.concurrent", attributes: .concurrent)
+
+  concurrentQueue.async {
+      print("Reading data")
+  }
+
+  concurrentQueue.async(flags: .barrier) {
+      print("Writing data exclusively")
+  }`
+    },
+    {
+      "id": 115,
+      "question": "What is DispatchSource, and when would you use it?",
+      "answer": "DispatchSource is a low-level GCD API for handling system-level events like timers, signals, file system monitoring, or process events.",
+      "category": "concurrency",
+      "code": `let timer = DispatchSource.makeTimerSource()
+
+  timer.schedule(deadline: .now(), repeating: 5)
+  timer.setEventHandler {
+      print("Timer fired!")
+  }
+  timer.resume()`
+    },
+    {
+      "id": 116,
+      "question": "How do @synchronized and NSLock differ in Swift concurrency control?",
+      "answer": "@synchronized (Objective-C) automatically manages locks around a code block. NSLock (Swift) is a manual locking mechanism, offering more control but requiring explicit lock and unlock calls.",
+      "category": "concurrency",
+      "code": `let lock = NSLock()
+
+  lock.lock()
+  print("Critical section protected by NSLock")
+  lock.unlock()`
+    },
+    {
+      "id": 117,
+      "question": "How can you efficiently manage UI updates after performing background tasks?",
+      "answer": "After background processing, you can use DispatchQueue.main.async to update the UI on the main thread safely.",
+      "category": "concurrency",
+      "code": `DispatchQueue.global().async {
+      // Background work
+      let result = heavyComputation()
+
+      DispatchQueue.main.async {
+          // UI update
+          self.label.text = result
+      }
+  }`
+    },
+    {
+      "id": 118,
+      "question": "Explain the purpose and use of performSelector(inBackground:) in Objective-C and how it translates in Swift",
+      "answer": "performSelector(inBackground:) in Objective-C runs a method in a background thread. In Swift, DispatchQueue.global().async achieves similar behavior.",
+      "category": "concurrency",
+      "code": `DispatchQueue.global().async {
+      self.doBackgroundTask()
+  }`
+    },
+  
+  
+    {
+      "id": 119,
+      "question": "How does the system determine the number of threads to allocate for concurrent queues in GCD?",
+      "answer": "GCD uses a dynamic thread pool managed by the system. It adjusts the number of threads based on system load (CPU & memory availability), number of cores in the device, current workload of the app, and thread contention & priority levels.",
+      "category": "concurrency",
+      "code": `// No direct code example; GCD manages this automatically.
+  let queue = DispatchQueue.global(qos: .default)
+
+  queue.async {
+      // GCD automatically manages the thread allocation
+      print("Running in background")
+  }`
+    },
+    {
+      "id": 120,
+      "question": "What are the potential risks of using GCD for long-running tasks?",
+      "answer": "Using GCD for long-running tasks can cause thread starvation (delaying other tasks), memory pressure (too many threads alive), and thread explosion if too many tasks are dispatched simultaneously without control.",
+      "category": "concurrency",
+      "code": `let queue = DispatchQueue.global(qos: .background)
+
+  queue.async {
+      while true {
+          // Simulate a long-running infinite task
+          print("Running forever, risking starvation")
+      }
+  }`
+    },
+    {
+      "id": 121,
+      "question": "How does GCD handle thread explosion, and how can you prevent it?",
+      "answer": "GCD manages a thread pool to limit active threads. To prevent thread explosion, use fewer concurrent tasks, semaphores, DispatchWorkItem cancellation, or OperationQueue with maxConcurrentOperationCount.",
+      "category": "concurrency",
+      "code": `let semaphore = DispatchSemaphore(value: 2)
+
+  for _ in 0..<10 {
+      DispatchQueue.global().async {
+          semaphore.wait()
+          print("Controlled task started")
+          sleep(2)
+          semaphore.signal()
+      }
+  }`
+    },
+    {
+      "id": 122,
+      "question": "Why is GCD considered more efficient than manually creating threads?",
+      "answer": "GCD reuses threads from a pool, reducing the overhead of creating/destroying threads. It dynamically adjusts to system resources, improves battery life, and reduces context-switching compared to manual thread management.",
+      "category": "concurrency",
+      "code": `let queue = DispatchQueue.global()
+
+  queue.async {
+      print("Task 1 executed efficiently")
+  }
+
+  queue.async {
+      print("Task 2 executed efficiently")
+  }`
+    },
+    {
+      "id": 123,
+      "question": "Can you use DispatchQueue.main.async inside a background thread? What happens?",
+      "answer": "Yes, you can use DispatchQueue.main.async inside a background thread. It schedules the task back to the main queue, ensuring UI updates or main-thread operations happen safely.",
+      "category": "concurrency",
+      "code": `DispatchQueue.global().async {
+      // Background thread
+      print("Doing background work")
+
+      DispatchQueue.main.async {
+          // Back to the main thread
+          print("Updating UI on the main thread")
+      }
+  }`
+    },
+  
+  
+    {
+      "id": 124,
+      "question": "How does GCD handle autorelease pools in background threads?",
+      "answer": "In the main thread, an autorelease pool is automatically created and drained at the end of each run loop cycle. In background queues, GCD does not automatically create an autorelease pool, so you should manually create one if you are using Objective-C objects that rely on autorelease.",
+      "category": "concurrency",
+      "code": `DispatchQueue.global().async {
+      autoreleasepool {
+          // Your background task
+          let object = SomeObjectiveCClass()
+          object.doSomething()
+      }
+  }`
+    },
+    {
+      "id": 125,
+      "question": "What are the memory implications of using DispatchQueue.global() excessively?",
+      "answer": "Excessive use of DispatchQueue.global() can lead to thread explosion, memory leaks, and increased power consumption because each task might create more system threads than necessary, overwhelming system resources.",
+      "category": "concurrency",
+      "code": `// Good practice: Use a custom queue if needed
+  let customQueue = DispatchQueue(label: "com.example.customQueue", attributes: .concurrent)
+
+  customQueue.async {
+      // Perform background work
+  }`
+    },
+    {
+      "id": 126,
+      "question": "What happens if a DispatchWorkItem is executed but the reference to it is lost?",
+      "answer": "If a DispatchWorkItem is scheduled and its reference is lost, it will still execute if it has already been submitted to a queue. Losing the reference mainly means you can no longer cancel or observe its completion.",
+      "category": "concurrency",
+      "code": `let workItem = DispatchWorkItem {
+      print("Task executed")
+  }
+
+  DispatchQueue.global().async(execute: workItem)
+
+  // workItem reference lost after this point, but task still executes`
+    },
+    {
+      "id": 127,
+      "question": "How does DispatchQueue.concurrentPerform(iterations:_:) work, and when should it be used?",
+      "answer": "DispatchQueue.concurrentPerform executes a block of code multiple times in parallel using a pool of threads. It's useful for parallelizing simple, independent computations across multiple cores.",
+      "category": "concurrency",
+      "code": `DispatchQueue.concurrentPerform(iterations: 5) { index in
+      print("Running task \\(index)")
+  }`
+    },
+    {
+      "id": 128,
+      "question": "Explain why a strong reference cycle might occur when using self inside a DispatchQueue.async block.",
+      "answer": "A strong reference cycle occurs if self is strongly captured inside an async closure, causing the object to never get deallocated. Always use [weak self] or [unowned self] to avoid memory leaks.",
+      "category": "concurrency",
+      "code": `DispatchQueue.global().async { [weak self] in
+      self?.performTask()
+  }`
+    },
+  
+    {
+      "id": 129,
+      "question": "What happens if DispatchQueue.asyncAfter(deadline:) is called inside a synchronous block?",
+      "answer": "If DispatchQueue.asyncAfter(deadline:) is called inside a synchronous block, it does not block the current execution. The synchronous block will continue executing immediately, while the delayed task will be scheduled independently on the specified queue.",
+      "category": "concurrency",
+      "code": `DispatchQueue.global().sync {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+          print("Executed after 2 seconds")
+      }
+      print("Synchronous block completed")
+  }`
+    },
+    {
+      "id": 130,
+      "question": "How can you cancel a delayed execution scheduled via DispatchQueue.asyncAfter(deadline:)?",
+      "answer": "DispatchQueue.asyncAfter(deadline:) itself cannot be directly canceled. To enable cancellation, wrap the delayed task in a DispatchWorkItem and call cancel() on it before it executes.",
+      "category": "concurrency",
+      "code": `let workItem = DispatchWorkItem {
+      print("This might be canceled")
+  }
+
+  DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: workItem)
+
+  // To cancel
+  workItem.cancel()`
+    },
+    {
+      "id": 131,
+      "question": "What is the difference between DispatchSourceTimer and DispatchQueue.asyncAfter?",
+      "answer": "DispatchQueue.asyncAfter schedules a single task to run after a delay. DispatchSourceTimer, on the other hand, provides more precise control, supports repeated executions, and can be resumed or suspended.",
+      "category": "concurrency",
+      "code": `let timer = DispatchSource.makeTimerSource()
+
+  timer.schedule(deadline: .now(), repeating: 5)
+  timer.setEventHandler {
+      print("Timer fired")
+  }
+  timer.resume()`
+    },
+    {
+      "id": 132,
+      "question": "How do you implement periodic tasks in GCD?",
+      "answer": "You can use DispatchSourceTimer to implement periodic tasks efficiently by scheduling it with a repeating interval.",
+      "category": "concurrency",
+      "code": `let timer = DispatchSource.makeTimerSource(queue: DispatchQueue.global())
+
+  timer.schedule(deadline: .now(), repeating: 10)
+  timer.setEventHandler {
+      print("Repeating task executed")
+  }
+  timer.resume()`
+    },
+    {
+      "id": 133,
+      "question": "Why should you avoid using sleep() inside a GCD queue?",
+      "answer": "Using sleep() inside a GCD queue blocks the thread entirely, wasting system resources. It prevents other tasks from running efficiently, leading to poor performance. Instead, prefer non-blocking delays like DispatchQueue.asyncAfter or timers.",
+      "category": "concurrency",
+      "code": `// Bad practice
+  DispatchQueue.global().async {
+      sleep(5)
+      print("This blocks the thread")
+  }
+
+  // Good practice
+  DispatchQueue.global().asyncAfter(deadline: .now() + 5) {
+      print("Non-blocking delay")
+  }`
     }
+  
+
+
+  
+
+  
 ];
 
 export default qaData;
