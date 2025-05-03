@@ -1927,7 +1927,7 @@ let doubledNumbers = [1, 2, 3].map { $0 * 2 }`
       print("This blocks the thread")
   }
 
-  // Good practice
+  // Good practice i.e. Non-blocking delay
   DispatchQueue.global().asyncAfter(deadline: .now() + 5) {
       print("Non-blocking delay")
   }`
