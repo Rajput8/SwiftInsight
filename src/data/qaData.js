@@ -1931,9 +1931,625 @@ let doubledNumbers = [1, 2, 3].map { $0 * 2 }`
   DispatchQueue.global().asyncAfter(deadline: .now() + 5) {
       print("Non-blocking delay")
   }`
-    }
+    },
   
+   // SWIFT 6 QUESTIONS & ANSWERS
+    {
+      id: 134,
+      question: "What new features were introduced in Swift 6 for concurrency?",
+      answer:
+        "Swift 6 introduces further improvements to structured concurrency, building on the async/await model. New async let syntax allows for concurrent asynchronous tasks and task groups for parallel execution.",
+      category: "updates",
+      code: `async let task1 = fetchData()
+      async let task2 = fetchData()
+      let results = await [task1, task2]`,
+    },
+    {
+      id: 135,
+      question:
+        "How does Swift 6 improve the use of Result type with async/await?",
+      answer:
+        "Swift 6 enhances the integration of Result with async/await, making it easier to handle success and failure cases directly in async functions, reducing the need for manual error handling.",
+      category: "updates",
+      code: `func fetchData() async -> Result<String, Error> {
+          do {
+              let data = try await someNetworkCall()
+              return .success(data)
+          } catch {
+              return .failure(error)
+          }
+      }
 
+      async let result = fetchData()`,
+    },
+    {
+      id: 136,
+      question:
+        "What new syntax changes in Swift 6 make error handling more concise?",
+      answer:
+        "Swift 6 allows you to directly use try within async closures, reducing boilerplate code when handling errors and making async error handling more streamlined.",
+      category: "updates",
+      code: `func fetchData() async throws -> String {
+          let data = try await someNetworkCall()
+          return data
+      }
+
+      async {
+          do {
+              let data = try await fetchData()
+              print(data)
+          } catch {
+              print("Error: \(error)")
+          }
+      }`,
+    },
+    {
+      id: 137,
+      question:
+        "How does Swift 6 enhance type safety and flexibility with enum types?",
+      answer:
+        "Swift 6 introduces improvements to enums, allowing them to support associated values in protocols and better pattern matching for more flexible and type-safe code.",
+      category: "updates",
+      code: `protocol Shape {
+          var area: Double { get }
+      }
+
+      enum ShapeType: Shape {
+          case rectangle(width: Double, height: Double)
+          case circle(radius: Double)
+
+          var area: Double {
+              switch self {
+              case .rectangle(let width, let height):
+                  return width * height
+              case .circle(let radius):
+                  return .pi * radius * radius
+              }
+          }
+      }`,
+    },
+    {
+      id: 138,
+      question: "What are the updates in Swift 6 regarding property wrappers?",
+      answer:
+        "Swift 6 enhances property wrappers by adding automatic keypath-based initialization and better support for protocols, improving their reusability and efficiency.",
+      category: "updates",
+      code: `@propertyWrapper
+      struct Clamped<Value: Comparable> {
+          var value: Value
+          var range: ClosedRange<Value>
+
+          init(wrappedValue: Value, range: ClosedRange<Value>) {
+              self.value = wrappedValue
+              self.range = range
+          }
+
+          var wrappedValue: Value {
+              get { return value }
+              set { value = min(max(newValue, range.lowerBound), range.upperBound) }
+          }
+      }
+
+      struct Settings {
+          @Clamped(range: 0...10) var brightness: Int
+      }
+
+      var settings = Settings(brightness: 15)
+      print(settings.brightness)  // Output: 10`,
+    },
+    {
+      id: 139,
+      question: "What improvements to generics have been introduced in Swift 6?",
+      answer:
+        "Swift 6 introduces more powerful generic constraints, improved support for existential types, and efficient type inference, making generics more flexible and error-proof.",
+      category: "updates",
+      code: `func printData<T: CustomStringConvertible>(data: T) {
+          print(data.description)
+      }
+
+      struct MyStruct: CustomStringConvertible {
+          var description: String { "MyStruct data" }
+      }
+
+      printData(data: MyStruct())  // Output: MyStruct data`,
+    },
+    {
+      id: 140,
+      question:
+        "How has Swift 6 improved the use of async/await with structured concurrency?",
+      answer:
+        "Swift 6 refines the structured concurrency model, allowing better handling of task groups and cancellation propagation. Async let enables concurrent tasks to run more efficiently.",
+      category: "updates",
+      code: `async let task1 = fetchData()
+      async let task2 = fetchData()
+      await [task1, task2]`,
+    },
+    {
+      id: 141,
+      question:
+        "What new features related to memory management have been introduced in Swift 6?",
+      answer:
+        "Swift 6 improves memory management with better support for weak and strong references, making memory handling more predictable and error-resistant in high-performance applications.",
+      category: "updates",
+      code: `class MyClass {
+          weak var delegate: SomeDelegate?
+          var strongReference: SomeDelegate?
+      }`,
+    },
+    {
+      id: 142,
+      question: "What are the new enhancements to defer in Swift 6?",
+      answer:
+        "Swift 6 enhances the defer statement by allowing multiple defer statements within a scope and ensuring that they are executed in the reverse order, providing better control over cleanup tasks.",
+      category: "updates",
+      code: `func testDefer() {
+          defer { print("First defer") }
+          defer { print("Second defer") }
+          print("Code executed before defer")
+      }
+
+      testDefer() 
+      // Output:
+      // Code executed before defer
+      // Second defer
+      // First defer`,
+    },
+
+    {
+      id: 143,
+      question: "How has Swift 6 improved support for regular expressions?",
+      answer:
+        "Swift 6 introduces native support for regular expressions with a new syntax and API, making it easier and more efficient to work with regular expressions in Swift code.",
+      category: "updates",
+      code: `let regex = try! NSRegularExpression(pattern: "\\d{3}-\\d{2}-\\d{4}", options: [])
+    let testString = "123-45-6789"
+    let range = NSRange(testString.startIndex..., in: testString)
+    let match = regex.firstMatch(in: testString, options: [], range: range)
+
+    if let match = match {
+        print("Match found: \(testString[Range(match.range, in: testString)!])")
+    } else {
+        print("No match found")
+    }`,
+    },
+
+    // CORE DATA QUESTIONS & ANSWERS
+
+    {
+      id: 144,
+      question:
+        "What is Core Data, and how does it differ from an SQLite database?",
+      code: `KeyPoints:
+        • Core Data is an object graph and persistence framework from Apple.
+        • While it can use SQLite as a persistent store, it’s more than a simple database.
+        • Core Data manages object lifecycles, relationships, change tracking, undo/redo, and faulting.
+        • SQLite is just a database engine; Core Data is a higher-level abstraction.`,
+      category: "coredata",
+    },
+    {
+      id: 145,
+      question: "Describe the Core Data stack and its main components.",
+      code: `KeyPoints:
+        • NSManagedObjectModel – Defines the schema of entities and relationships.
+        • NSPersistentStoreCoordinator – Coordinates between model and physical store.
+        • NSManagedObjectContext – Handles object life cycle and changes.
+        • NSPersistentContainer – High-level abstraction that encapsulates the full stack.`,
+      category: "coredata",
+    },
+    {
+      id: 146,
+      question: "What is the significance of data migrations in Core Data?",
+      code: `KeyPoints:
+      • Data migrations are necessary when the schema of the Core Data model changes.
+      • Core Data supports lightweight migration, but custom mapping models can be used for complex migrations.
+      • Migration ensures that the data remains compatible with the new version of the model.`,
+      category: "coredata",
+    },
+    {
+      id: 147,
+      question:
+        "Explain the difference between .mainQueueConcurrencyType and .privateQueueConcurrencyType.",
+      code: `KeyPoints:
+        • .mainQueueConcurrencyType: MOC is tied to the main thread, suitable for UI-related tasks.
+        • .privateQueueConcurrencyType: MOC uses its own queue, used for background processing.
+        • Accessing objects outside their queue leads to undefined behavior.`,
+      category: "coredata",
+    },
+    {
+      id: 148,
+      question:
+        "What are the different persistent store types available in Core Data?",
+      code: `KeyPoints:
+        • SQLite – default and most commonly used.
+        • Binary – stores as a binary file.
+        • In-memory – does not persist between app launches.
+        • CloudKit-backed store – introduced in iOS 13 for syncing with iCloud.`,
+      category: "coredata",
+    },
+    {
+      id: 149,
+      question: "What is faulting in Core Data?",
+      code: `KeyPoints:
+        • Faulting is a mechanism for lazy loading.
+        • Placeholder objects are returned until data is needed.
+        • Reduces memory footprint and improves performance.`,
+      category: "coredata",
+    },
+    {
+      id: 150,
+      question: "How do you pass a Core Data object between threads?",
+      code: `KeyPoints:
+        • Managed objects are not thread-safe.
+        • Use NSManagedObjectID to pass references.
+        • Re-fetch the object using the destination context.`,
+      category: "coredata",
+    },
+    {
+      id: 151,
+      question: "What is an NSFetchedResultsController?",
+      code: `KeyPoints:
+        • Designed to efficiently manage table/collection view data.
+        • Monitors changes in the managed object context.
+        • Automatically notifies delegate of insertions, deletions, and updates.`,
+      category: "coredata",
+    },
+    {
+      id: 152,
+      question: "What is lightweight migration in Core Data?",
+      code: `KeyPoints:
+        • Used for simple model changes.
+        • No need for a custom mapping model.
+        • Requires setting options on the persistent store coordinator.
+        • Uses inferred mapping by comparing old and new models.`,
+      category: "coredata",
+    },
+    {
+      id: 153,
+      question: "How does Core Data differ from Realm or SQLite directly?",
+      code: `KeyPoints:
+        • Core Data is an object graph framework with rich features.
+        • Realm is a modern, mobile-first database with its own engine.
+        • SQLite is a raw relational database.
+        • Core Data supports undo, versioning, and relationships out of the box.`,
+      category: "coredata",
+    },
+    {
+      id: 154,
+      question: "What is an NSManagedObject?",
+      code: `KeyPoints:
+        • NSManagedObject is a generic class that implements all Core Data model objects.
+        • It represents a single object stored in Core Data.
+        • It is dynamically created based on the model and can be customized.`,
+      category: "coredata",
+    },
+    {
+      id: 155,
+      question: "What is a managed object model version?",
+      code: `KeyPoints:
+        • A versioned model allows you to evolve your data schema.
+        • It is required for lightweight and manual migrations.
+        • Each version defines a snapshot of your model.`,
+      category: "coredata",
+    },
+    {
+      id: 156,
+      question: "What is a transformable attribute in Core Data?",
+      code: `KeyPoints:
+        • Used for storing custom types not natively supported by Core Data.
+        • NSValueTransformer is used to convert between stored and runtime formats.
+        • Can lead to issues with data migration if not managed carefully.`,
+      category: "coredata",
+    },
+    {
+      id: 157,
+      question: "How does Core Data handle relationships?",
+      code: `KeyPoints:
+        • Supports to-one and to-many relationships.
+        • Relationships can be optional or required.
+        • You can define inverse relationships to maintain consistency.
+        • Supports delete rules like nullify, cascade, deny, and no action.`,
+      category: "coredata",
+    },
+    {
+      id: 158,
+      question: "What are fetched properties in Core Data?",
+      code: `KeyPoints:
+        • A fetched property is a dynamic relationship.
+        • It does not persist and is evaluated using a fetch request.
+        • Useful for expressing queries based on criteria rather than fixed links.`,
+      category: "coredata",
+    },
+    {
+      id: 159,
+      question: "How does undo and redo work in Core Data?",
+      code: `KeyPoints:
+        • NSManagedObjectContext provides built-in undo/redo support.
+        • You need to register undo operations explicitly.
+        • Works best when integrated with the undo manager.`,
+      category: "coredata",
+    },
+    {
+      id: 160,
+      question: "What are merge policies in Core Data?",
+      code: `KeyPoints:
+        • Used when saving conflicting changes in different contexts.
+        • Options include error, property store trump, property object trump, overwrite, and rollback.
+        • Important in multithreaded and syncing environments.`,
+      category: "coredata",
+    },
+    {
+      id: 161,
+      question: "What is an NSManagedObjectID?",
+      code: `KeyPoints:
+        • NSManagedObjectID uniquely identifies an object within Core Data.
+        • It’s useful for passing references between contexts.
+        • Essential for managing objects across multiple threads.`,
+      category: "coredata",
+    },
+    {
+      id: 162,
+      question: "Explain the concept of object lifecycle in Core Data.",
+      code: `KeyPoints:
+        • Core Data manages objects’ lifecycle from creation to deletion.
+        • Managed objects can be inserted, updated, or deleted from the context.
+        • Objects can be saved, discarded, or invalidated based on lifecycle events.`,
+      category: "coredata",
+    },
+    {
+      id: 163,
+      question: "What is a context in Core Data?",
+      code: `KeyPoints:
+        • An NSManagedObjectContext is an in-memory representation of managed objects.
+        • It acts as a temporary workspace for managing objects.
+        • Changes are committed to the persistent store when saved.`,
+      category: "coredata",
+    },
+    {
+      id: 164,
+      question: "What are validation rules in Core Data?",
+      code: `KeyPoints:
+        • Validation rules ensure data consistency.
+        • Can be added to model attributes to enforce data constraints.
+        • Core Data provides automatic validation, but custom validation can be implemented.`,
+      category: "coredata",
+    },
+    {
+      id: 165,
+      question:
+        "What is the difference between NSManagedObject and NSManagedObjectModel?",
+      code: `KeyPoints:
+        • NSManagedObject represents an instance of an entity.
+        • NSManagedObjectModel is the blueprint that defines the structure of entities in the data model.
+        • NSManagedObjectModel is used to configure the persistent store.`,
+      category: "coredata",
+    },
+    {
+      id: 166,
+      question: "How do you handle versioned data models in Core Data?",
+      code: `KeyPoints:
+        • You use lightweight migrations to handle schema changes.
+        • You can add new entities, attributes, or relationships in new versions.
+        • The system automatically performs the migration based on the model versions.`,
+      category: "coredata",
+    },
+    {
+      id: 167,
+      question: "What is the purpose of the NSFetchedResultsController delegate?",
+      code: `KeyPoints:
+        • The delegate responds to changes in fetched results.
+        • It notifies of changes like insertions, deletions, and updates.
+        • Useful for integrating with UITableView or UICollectionView.`,
+      category: "coredata",
+    },
+    {
+      id: 168,
+      question: "What is the use of NSBatchDeleteRequest in Core Data?",
+      code: `KeyPoints:
+      • NSBatchDeleteRequest allows you to delete objects in a batch.
+      • It is a more efficient way to delete multiple objects than deleting them individually.
+      • It can be used with a fetch request to delete specific objects.`,
+      category: "coredata",
+    },
+    {
+      id: 169,
+      question: "How can you manage relationships in Core Data?",
+      code: `KeyPoints:
+      • Use NSSet or NSArray for to-many relationships.
+      • Use NSManagedObject for to-one relationships.
+      • Inverse relationships must be defined to maintain consistency.
+      • Core Data automatically manages the integrity of relationships when saving.`,
+      category: "coredata",
+    },
+    {
+      id: 170,
+      question: "How do you handle complex queries in Core Data?",
+      code: `KeyPoints:
+      • Use NSFetchRequest to define complex queries.
+      • Predicate is used to filter objects based on specific conditions.
+      • Sorting can be added with NSSortDescriptor to control the result order.`,
+      category: "coredata",
+    },
+    {
+      id: 171,
+      question: "What are batch operations in Core Data?",
+      code: `KeyPoints:
+      • Batch operations allow you to efficiently perform insert, update, or delete operations on large numbers of objects.
+      • NSBatchUpdateRequest and NSBatchDeleteRequest are used for batch operations.
+      • Batch operations improve performance by bypassing the need to load objects into memory.`,
+      category: "coredata",
+    },
+    {
+      id: 172,
+      question: "What is the role of NSPersistentStoreCoordinator?",
+      code: `KeyPoints:
+      • It is responsible for managing the interaction between the model layer and the persistent store.
+      • It loads the store, manages its connection, and coordinates reading and writing operations.
+      • It handles data consistency and conflict resolution during save operations.`,
+      category: "coredata",
+    },
+    {
+      id: 173,
+      question:
+        "What is the difference between a fetched property and a relationship in Core Data?",
+      code: `KeyPoints:
+      • A fetched property is dynamic, calculated at runtime using a fetch request.
+      • A relationship is a persistent reference to another object.
+      • Fetched properties are not stored in the persistent store, while relationships are.`,
+      category: "coredata",
+    },
+    {
+      id: 174,
+      question: "How do you optimize performance when using Core Data?",
+      code: `KeyPoints:
+      • Fetch only the required data using NSFetchRequest with predicates and sorting.
+      • Use faulting to reduce memory consumption by loading data lazily.
+      • Perform background operations in a separate queue to keep the UI responsive.`,
+      category: "coredata",
+    },
+    {
+      id: 175,
+      question: "What is the difference between Core Data and UserDefaults?",
+      code: `KeyPoints:
+      • Core Data is used for complex, relational data storage with support for relationships, undo/redo, and migration.
+      • UserDefaults is a simple key-value store for storing small amounts of data like user settings or preferences.
+      • Core Data can handle large datasets, while UserDefaults is not intended for large data storage.`,
+      category: "coredata",
+    },
+    {
+      id: 176,
+      question: "What is the role of NSPersistentContainer in Core Data?",
+      code: `KeyPoints:
+      • NSPersistentContainer is a high-level API that simplifies Core Data stack setup.
+      • It manages the persistent store coordinator, managed object model, and managed object context.
+      • It simplifies the integration of Core Data with the app lifecycle.`,
+      category: "coredata",
+    },
+    {
+      id: 177,
+      question: "How can you perform batch updates in Core Data?",
+      code: `KeyPoints:
+      • Use NSBatchUpdateRequest to modify multiple objects in a batch.
+      • It reduces memory consumption by performing updates on the store directly.
+      • It allows for more efficient updates compared to loading objects into memory and modifying them.`,
+      category: "coredata",
+    },
+    {
+      id: 178,
+      question: "What is NSBatchInsertRequest in Core Data?",
+      code: `KeyPoints:
+      • NSBatchInsertRequest allows you to insert multiple objects in a batch.
+      • It is more efficient than inserting objects one by one.
+      • It reduces memory usage and improves performance during large insert operations.`,
+      category: "coredata",
+    },
+    {
+      id: 179,
+      question: "What are the advantages of using Core Data?",
+      code: `KeyPoints:
+      • Provides built-in support for object graph management, data persistence, and relationships.
+      • Supports undo/redo, change tracking, and data migrations.
+      • Optimized for mobile applications, offering efficient memory management and performance.`,
+      category: "coredata",
+    },
+    {
+      id: 180,
+      question: "What is a migration in Core Data?",
+      code: `KeyPoints:
+      • Migration is the process of updating the data model when the schema changes.
+      • Core Data provides lightweight and manual migration options.
+      • Migrations ensure that the data remains compatible with the new model version.`,
+      category: "coredata",
+    },
+    {
+      id: 181,
+      question: "What is the purpose of NSValueTransformer in Core Data?",
+      code: `KeyPoints:
+      • NSValueTransformer is used to transform custom data types to and from the persistent store format.
+      • It allows Core Data to store non-native types like images or custom objects.
+      • It is used in conjunction with transformable attributes in the data model.`,
+      category: "coredata",
+    },
+    {
+      id: 182,
+      question: "How do you perform a migration with a custom mapping model?",
+      code: `KeyPoints:
+      • Use NSMappingModel to map old attributes and relationships to new ones.
+      • A custom mapping model allows for complex transformations during the migration.
+      • You can create a manual migration that specifies exactly how to migrate each attribute and relationship.`,
+      category: "coredata",
+    },
+    {
+      id: 183,
+      question: "What is the use of NSFetchRequest in Core Data?",
+      code: `KeyPoints:
+      • NSFetchRequest is used to retrieve data from the persistent store.
+      • It allows you to define predicates, sort descriptors, and fetch limits.
+      • It is a core component for querying managed objects in Core Data.`,
+      category: "coredata",
+    },
+    {
+      id: 184,
+      question: "What is a Core Data predicate?",
+      code: `KeyPoints:
+      • A predicate is used to filter objects based on conditions.
+      • It is used in conjunction with NSFetchRequest to limit the results.
+      • Predicates can be built using format strings or using NSPredicate methods.`,
+      category: "coredata",
+    },
+    {
+      id: 185,
+      question: "What is a sort descriptor in Core Data?",
+      code: `KeyPoints:
+      • A sort descriptor defines the sorting order of fetched results.
+      • It is used in conjunction with NSFetchRequest to specify how to order the data.
+      • You can sort data by one or more attributes.`,
+      category: "coredata",
+    },
+    {
+      id: 186,
+      question: "How can you track changes in Core Data?",
+      code: `KeyPoints:
+      • Core Data automatically tracks changes to managed objects.
+      • You can manually register undo operations to track changes.
+      • The NSManagedObjectContext tracks changes at the object level, and these changes can be persisted upon save.`,
+      category: "coredata",
+    },
+    {
+      id: 187,
+      question: "What is a managed object in Core Data?",
+      code: `KeyPoints:
+      • A managed object represents an instance of an entity in the data model.
+      • It is an instance of the NSManagedObject class or its subclasses.
+      • Managed objects are automatically managed by the NSManagedObjectContext.`,
+      category: "coredata",
+    },
+    {
+      id: 188,
+      question: "What is a versioned store in Core Data?",
+      code: `KeyPoints:
+      • A versioned store allows you to manage different schema versions of the same data.
+      • It is used when migrating from one data model version to another.
+      • Core Data automatically handles store versioning during migrations.`,
+      category: "coredata",
+    },
+    {
+      id: 189,
+      question: "What is Core Data’s relationship to SwiftUI?",
+      code: `KeyPoints:
+      • Core Data integrates seamlessly with SwiftUI via @FetchRequest and @ObservedObject.
+      • It allows for data-driven UI updates in SwiftUI applications.
+      • Changes to Core Data entities automatically reflect in the UI.`,
+      category: "coredata",
+    },
+    {
+      id: 190,
+      question: "What is the purpose of NSPersistentStore in Core Data?",
+      code: `KeyPoints:
+      • NSPersistentStore is responsible for connecting the managed object context to the underlying data store.
+      • It supports multiple storage options such as SQLite, binary, or in-memory.
+      • The store ensures data persistence and synchronization between memory and disk.`,
+      category: "coredata",
+    },
 
   
 
