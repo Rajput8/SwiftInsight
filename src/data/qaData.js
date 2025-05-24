@@ -2550,10 +2550,413 @@ let doubledNumbers = [1, 2, 3].map { $0 * 2 }`
       • The store ensures data persistence and synchronization between memory and disk.`,
       category: "coredata",
     },
-
-  
-
-  
+    {
+      id: 191,
+      question:
+        "What are the different types of persistent stores supported by Core Data?",
+      code: `KeyPoints:
+      • SQLite – Default and widely used store type.
+      • Binary – Stores data in a binary format, suitable for macOS use cases.
+      • In-memory – Data exists only in RAM, lost on app termination.
+      • CloudKit – Syncs data across devices using iCloud, available from iOS 13+.`,
+      category: "coredata-new",
+    },
+    {
+      id: 192,
+      question: 'What is a "context merge", and when would you use it?',
+      code: `KeyPoints:
+      • A context merge combines changes from one NSManagedObjectContext into another.
+      • Used when multiple contexts work on the same persistent store.
+      • Essential in background-to-main context syncs.
+      • Avoids data inconsistency and ensures latest data is reflected across contexts.`,
+      category: "coredata-new",
+    },
+    {
+      id: 193,
+      question: "Explain the difference between main and private queue contexts.",
+      code: `KeyPoints:
+      • Main queue context is bound to the main thread and used for UI work.
+      • Private queue context operates on its own background thread.
+      • Main queue is convenient but less performant for heavy tasks.
+      • Private queue is used for background saving, parsing, importing.`,
+      category: "coredata-new",
+    },
+    {
+      id: 194,
+      question: "How do you ensure thread safety in Core Data?",
+      code: `KeyPoints:
+      • Use separate NSManagedObjectContexts for each thread or queue.
+      • Never pass NSManagedObject directly across threads.
+      • Use perform or performAndWait for context operations.
+      • Share object identity using NSManagedObjectID between contexts.`,
+      category: "coredata-new",
+    },
+    {
+      id: 195,
+      question:
+        "What are batch updates and how are they different from regular updates?",
+      code: `KeyPoints:
+      • Batch updates modify multiple records directly in the persistent store.
+      • Regular updates load objects into memory and modify them.
+      • Batch updates are more performant for large datasets.
+      • They bypass the context and do not update in-memory objects automatically.`,
+      category: "coredata-new",
+    },
+    {
+      id: 196,
+      question: "What are transient properties in Core Data?",
+      code: `KeyPoints:
+      • Transient properties are not persisted to the data store.
+      • Used to hold temporary or computed values during runtime.
+      • Useful for UI state or derived calculations.
+      • Declared in the model editor by unchecking “Transient” box.`,
+      category: "coredata-new",
+    },
+    {
+      id: 197,
+      question: "What is the difference between save() and performAndWait?",
+      code: `KeyPoints:
+      • save() commits changes in a context to the persistent store.
+      • performAndWait(_:) is used to safely perform context operations on its queue.
+      • performAndWait ensures thread safety for synchronous code execution.
+      • They are often used together to ensure safe and correct saves.`,
+      category: "coredata-new",
+    },
+    {
+      id: 198,
+      question: "What is the role of NSMappingModel?",
+      code: `KeyPoints:
+      • NSMappingModel defines how data maps between old and new models during migration.
+      • Used for custom migrations when automatic mapping isn't sufficient.
+      • Can be created manually or inferred if models are simple.
+      • Works with NSMigrationManager to process data transformations.`,
+      category: "coredata-new",
+    },
+    {
+      id: 199,
+      question: "How would you implement undo/redo with Core Data?",
+      code: `KeyPoints:
+      • Enable undo support on NSManagedObjectContext by assigning an NSUndoManager.
+      • Changes can be grouped with processPendingChanges().
+      • Use undoManager?.undo() and redo() to trigger actions.
+      • Useful for text editing, drawing apps, or complex form flows.`,
+      category: "coredata-new",
+    },
+    {
+      id: 200,
+      question: "What is a fetched property?",
+      code: `KeyPoints:
+      • A fetched property is a dynamic, read-only relationship.
+      • It runs a fetch request instead of maintaining a static link.
+      • Not persisted, and evaluated when accessed.
+      • Useful for loosely-coupled or filtered relationships.`,
+      category: "coredata-new",
+    },
+    {
+      id: 201,
+      question: "Can Core Data work with Swift structs?",
+      code: `KeyPoints:
+      • Core Data is designed for reference types, specifically NSManagedObject subclasses.
+      • Structs are value types and not directly compatible with Core Data.
+      • To use structs, data must be mapped to/from managed objects manually.
+      • SwiftData (iOS 17+) introduces more support for value types, but Core Data itself remains class-based.`,
+      category: "coredata-new",
+    },
+    {
+      id: 202,
+      question: "What is Core Data's role in app architecture (MVC, MVVM, etc.)?",
+      code: `KeyPoints:
+      • In MVC, Core Data acts as the Model layer, managing persistence and relationships.
+      • In MVVM, Core Data is often wrapped by repositories or use case layers to abstract complexity.
+      • ViewModels should not directly access NSManagedObject for better separation.
+      • Use fetched results controllers or publishers to drive the UI reactively.`,
+      category: "coredata-new",
+    },
+    {
+      id: 203,
+      question: "Explain parent-child context pattern.",
+      code: `KeyPoints:
+      • A child context inherits its parent’s persistent store coordinator.
+      • Changes in child context remain local until saved to parent.
+      • Promotes isolated editing sessions and controlled saving.
+      • Often used for background imports or editing workflows.`,
+      category: "coredata-new",
+    },
+    {
+      id: 204,
+      question: "How do you deal with merge conflicts in Core Data?",
+      code: `KeyPoints:
+      • Merge conflicts occur when multiple contexts modify the same object.
+      • Use merge policies like .mergeByPropertyObjectTrump or .mergeByPropertyStoreTrump.
+      • NSMergePolicy resolves data conflicts based on defined strategy.
+      • Always merge changes from background contexts properly into the main context.`,
+      category: "coredata-new",
+    },
+    {
+      id: 205,
+      question: "What is the purpose of automaticallyMergesChangesFromParent?",
+      code: `KeyPoints:
+      • Enables a context to automatically merge changes saved in its parent.
+      • Avoids manual notifications or fetch refreshes.
+      • Commonly used in UI contexts to reflect background updates.
+      • Helps maintain data consistency across the stack.`,
+      category: "coredata-new",
+    },
+    {
+      id: 206,
+      question: "What is NSPersistentCloudKitContainer?",
+      code: `KeyPoints:
+      • A subclass of NSPersistentContainer introduced to integrate Core Data with CloudKit.
+      • Automatically syncs local Core Data changes to iCloud.
+      • Handles conflict resolution and remote change tracking.
+      • Requires correct entitlements, container setup, and iCloud capabilities.`,
+      category: "coredata-new",
+    },
+    {
+      id: 207,
+      question: "How does indexing in Core Data work?",
+      code: `KeyPoints:
+      • Indexes improve fetch performance by reducing lookup times.
+      • Can be enabled in the model editor for specific attributes.
+      • Especially useful for frequently queried or sorted fields.
+      • Core Data handles the underlying index generation in the persistent store.`,
+      category: "coredata-new",
+    },
+    {
+      id: 208,
+      question: "When would you prefer manual migration over lightweight?",
+      code: `KeyPoints:
+      • Use manual migration when structural changes are complex.
+      • Required when renaming entities, transforming data, or adding custom logic.
+      • Involves creating NSMappingModel and custom migration code.
+      • Offers full control over how data moves between versions.`,
+      category: "coredata-new",
+    },
+    {
+      id: 209,
+      question: "How do you profile Core Data performance?",
+      code: `KeyPoints:
+      • Use Instruments with the Core Data template for real-time tracking.
+      • Monitor fetch time, faulting, memory usage, and save latency.
+      • Look for fetch frequency and batch size effectiveness.
+      • Use SQL Debug logging to inspect underlying queries.`,
+      category: "coredata-new",
+    },
+    {
+      id: 210,
+      question: "How do you store binary data efficiently?",
+      code: `KeyPoints:
+      • Use the “Allows External Storage” option for Binary Data attributes.
+      • Core Data decides whether to store the blob in the store or in a separate file.
+      • Prevents bloating the database file with large media.
+      • Ideal for images, videos, or large documents.`,
+      category: "coredata-new",
+    },
+    {
+      id: 211,
+      question: "How do faults help with memory usage?",
+      code: `KeyPoints:
+      • Faults are lightweight stand-ins for real data objects.
+      • They delay data loading until it's explicitly accessed.
+      • This avoids loading the entire object graph into memory.
+      • Reduces memory footprint and speeds up initial fetches.`,
+      category: "coredata-new",
+    },
+    {
+      id: 212,
+      question: "What is the difference between delete and batch delete?",
+      code: `KeyPoints:
+      • Standard delete loads objects into memory before deleting.
+      • Batch delete performs deletion directly at the store level.
+      • Batch delete is faster and more efficient for large datasets.
+      • Batch deletes bypass the context, so changes must be merged manually.`,
+      category: "coredata-new",
+    },
+    {
+      id: 213,
+      question: "Can you have multiple stores in one Core Data stack?",
+      code: `KeyPoints:
+      • Yes, Core Data supports multiple persistent stores in a single stack.
+      • Each store can be of a different type (e.g., SQLite, in-memory).
+      • Entities can be confined to specific stores using configurations.
+      • Useful for modular storage strategies and data separation.`,
+      category: "coredata-new",
+    },
+    {
+      id: 214,
+      question: "What’s the impact of relationship cardinality on performance?",
+      code: `KeyPoints:
+      • To-One relationships are lightweight and easy to traverse.
+      • To-Many relationships can impact fetch performance if not optimized.
+      • Use fetched properties or batch fetching for large collections.
+      • Proper indexing and faulting help mitigate performance issues.`,
+      category: "coredata-new",
+    },
+    {
+      id: 215,
+      question: "How do you enforce uniqueness in Core Data?",
+      code: `KeyPoints:
+      • Set constraints on entity attributes in the data model.
+      • Use constraint validation or merge policies during save.
+      • Constraints are enforced at the store level, not just in-memory.
+      • Helps prevent duplication and maintain data integrity.`,
+      category: "coredata-new",
+    },
+    {
+      id: 216,
+      question: "How can you debug Core Data issues?",
+      code: `KeyPoints:
+      • Enable SQL debugging with -com.apple.CoreData.SQLDebug.
+      • Use Instruments with the Core Data and Allocations templates.
+      • Inspect NSManagedObjectContext save failures and merge conflicts.
+      • Log context changes and use breakpoints to trace faulty logic.`,
+      category: "coredata-new",
+    },
+    {
+      id: 217,
+      question: "What is derived attribute and when do you use it?",
+      code: `KeyPoints:
+      • Derived attributes are computed based on other attribute values.
+      • Added in Core Data model editor for automatic computation.
+      • Reduce redundancy and prevent manual updates across fields.
+      • Ideal for maintaining calculated fields like totalPrice = unitPrice * quantity.`,
+      category: "coredata-new",
+    },
+    {
+      id: 218,
+      question: "What are Core Data migrations pitfalls?",
+      code: `KeyPoints:
+      • Data loss if mappings are misconfigured or incomplete.
+      • Migration errors when changing relationship cardinality or constraints.
+      • Issues when working with multiple versions or renaming entities.
+      • Manual testing and backup before deployment are crucial.`,
+      category: "coredata-new",
+    },
+    {
+      id: 219,
+      question: "How does NSMergePolicy affect data integrity?",
+      code: `KeyPoints:
+      • Controls how conflicts between contexts are resolved.
+      • Options include error, object trump, store trump, etc.
+      • Inappropriate policy can overwrite valid data silently.
+      • Choose policies based on use-case: last-write-wins or strict consistency.`,
+      category: "coredata-new",
+    },
+    {
+      id: 220,
+      question: "How do you handle version control for Core Data models?",
+      code: `KeyPoints:
+      • Add new model versions in Xcode using Data Model Versioning.
+      • Never modify the existing model directly once in use.
+      • Use Lightweight or Manual Migration to transition between versions.
+      • Keep .xcdatamodeld under source control for traceability.`,
+      category: "coredata-new",
+    },
+    {
+      id: 221,
+      question: "How do you validate data in Core Data?",
+      code: `KeyPoints:
+      • Use validation methods like validateForInsert and validateForUpdate.
+      • Add constraints in the data model for attributes and relationships.
+      • Implement custom validation logic in managed object subclasses.
+      • Return NSError with userInfo describing the validation failure.`,
+      category: "coredata-new",
+    },
+    {
+      id: 222,
+      question: "How do you test Core Data logic in unit tests?",
+      code: `KeyPoints:
+      • Use an in-memory store type for isolation and speed.
+      • Create a separate NSPersistentContainer for test targets.
+      • Insert mock data to simulate real-world scenarios.
+      • Clean up the context between tests to avoid state leaks.`,
+      category: "coredata-new",
+    },
+    {
+      id: 223,
+      question: "When should you use Core Data over UserDefaults?",
+      code: `KeyPoints:
+      • Use Core Data for complex models, relationships, and querying.
+      • UserDefaults is better suited for simple key-value storage.
+      • Core Data provides undo/redo, validation, and object lifecycle management.
+      • Core Data scales better for large datasets and persistence requirements.`,
+      category: "coredata-new",
+    },
+    {
+      id: 224,
+      question: "Can Core Data store encrypted data?",
+      code: `KeyPoints:
+      • Core Data does not offer encryption out of the box.
+      • Encrypt sensitive data before storing in attributes.
+      • Use iOS’s Data Protection APIs to secure the SQLite file.
+      • Consider using encrypted SQLite libraries if needed.`,
+      category: "coredata-new",
+    },
+    {
+      id: 225,
+      question: "What’s a good Core Data design for syncing with a remote API?",
+      code: `KeyPoints:
+      • Use a background context for API operations.
+      • Map JSON to Core Data using decodable or custom logic.
+      • Mark dirty flags for objects needing sync.
+      • Resolve conflicts with merge policies or timestamps.
+      • Use persistent history tracking for incremental sync.`,
+      category: "coredata-new",
+    },
+    {
+      id: 226,
+      question:
+        "How would you handle schema evolution in a large production app?",
+      code: `KeyPoints:
+      • Use model versioning with proper naming and documentation.
+      • Prefer lightweight migration for additive changes.
+      • Use mapping models and tests for complex or destructive changes.
+      • Communicate changes with the team and ensure proper QA coverage.`,
+      category: "coredata-new",
+    },
+    {
+      id: 227,
+      question: "Can Core Data manage schema-less data like JSON blobs?",
+      code: `KeyPoints:
+      • Core Data is schema-driven by nature.
+      • You can store raw JSON blobs using Binary Data or Transformable types.
+      • Avoid querying inside the blob—consider using Realm or NoSQL if querying is required.
+      • Use schema-less storage for caching or third-party payloads only.`,
+      category: "coredata-new",
+    },
+    {
+      id: 228,
+      question: "What are some antipatterns in Core Data usage?",
+      code: `KeyPoints:
+      • Using the main context for heavy background tasks.
+      • Passing NSManagedObject across threads.
+      • Saving too frequently or not enough.
+      • Not handling errors or merge conflicts properly.
+      • Overusing fetch requests without batching or predicates.`,
+      category: "coredata-new",
+    },
+    {
+      id: 229,
+      question: "When should you avoid using Core Data?",
+      code: `KeyPoints:
+      • For simple key-value or small config storage.
+      • When your app doesn’t require persistence or object graph management.
+      • If data is mostly transient or fetched from server on demand.
+      • When schema flexibility or high write performance is critical.`,
+      category: "coredata-new",
+    },
+    {
+      id: 230,
+      question:
+        "How would you architect Core Data for modular or multi-feature iOS app?",
+      code: `KeyPoints:
+      • Encapsulate Core Data stack inside a dedicated persistence layer.
+      • Use protocols to abstract entity access and persistence logic.
+      • Separate managed object models per module using different .xcdatamodeld.
+      • Share one persistent container or coordinator with scoped contexts.
+      • Keep contexts isolated for each feature to reduce coupling.`,
+      category: "coredata-new",
+    },
 ];
 
 export default qaData;
